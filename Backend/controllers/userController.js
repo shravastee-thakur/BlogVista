@@ -7,12 +7,12 @@ import {
 
 export const register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, profileImage, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
-        .status(401)
+        .status(409)
         .json({ success: false, message: "User already exist" });
     }
 
@@ -20,14 +20,17 @@ export const register = async (req, res, next) => {
       name,
       email,
       password,
+      profileImage,
+      role,
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
       message: "User registered successfully",
     });
@@ -49,16 +52,17 @@ export const login = async (req, res, next) => {
     await user.save();
 
     return res
-      .status(200)
+      .status(201)
       .cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        sameSite: "Strict",
-        secure: false,
+        sameSite: "strict",
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
         success: true,
         accessToken: newAccessToken,
+        id: user._id,
         message: "User logged in successfully",
       });
   } catch (error) {
@@ -69,9 +73,9 @@ export const login = async (req, res, next) => {
 export const refreshTokenHandler = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (refreshToken) {
+    if (!refreshToken) {
       return res
-        .status(401)
+        .status(403)
         .json({ success: false, message: "Unauthorized: Invalid Token" });
     }
 
@@ -92,10 +96,10 @@ export const refreshTokenHandler = async (req, res, next) => {
     await user.save();
 
     return res
-      .status(200)
+      .status(201)
       .cookie("refreshToken", newrefreshToken, {
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: "lax",
         secure: false,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
@@ -117,7 +121,7 @@ export const refreshTokenHandler = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     const token = req.cookies.refreshToken;
-    if (!token) return res.status(204);
+    if (!token) return res.sendStatus(204);
 
     const user = await User.findOne({ refreshToken: token });
     if (user) {
@@ -125,11 +129,11 @@ export const logout = async (req, res, next) => {
     }
 
     return res
-      .status(200)
+      .status(201)
       .clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "Strict",
-        secure: false,
+        secure: true,
+        sameSite: "strict",
       })
       .json({ success: true, message: "User logged out successfully" });
   } catch (error) {

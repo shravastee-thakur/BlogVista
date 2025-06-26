@@ -45,3 +45,11 @@ export const loginValidation = (req, res, next) => {
   }
   next();
 };
+
+export const postSchema = joi.object({
+  title: joi.string().min(3).max(100).required(),
+  description: joi.string().min(10).required(),
+  author: joi.string().required(),
+  category: joi.array().items(joi.string()).min(1).required(),
+  coverImage: joi.string().uri().optional().allow(""),
+});

@@ -18,7 +18,7 @@ export const generateRefreshToken = (user) => {
 
 export const verifyAccessToken = (token) => {
   try {
-    jwt.verify(token, process.env.ACCESS_SECRET);
+    return jwt.verify(token, process.env.ACCESS_SECRET);
   } catch (error) {
     throw new Error("Invalid or expired access token");
   }
@@ -26,7 +26,7 @@ export const verifyAccessToken = (token) => {
 
 export const verifyRefreshToken = (token) => {
   try {
-    jwt.verify(token, process.env.REFRESH_SECRET);
+    return jwt.verify(token, process.env.REFRESH_SECRET);
   } catch (error) {
     throw new Error("Invalid or expired refresh token");
   }
