@@ -28,7 +28,8 @@ export const createPost = async (req, res, next) => {
 
 export const getAllPosts = async (req, res, next) => {
   try {
-    const allPosts = await Post.find().sort({ createdAt: -1 });
+    const allPosts = await Post.find()
+    .sort({ createdAt: -1 });
     if (!allPosts) {
       return res
         .status(404)
@@ -96,10 +97,10 @@ export const updatePost = async (req, res, next) => {
         .json({ success: false, message: "Post not found" });
     }
 
-    if (post.author.toString() !== req.user.id) {
+    if (post.author.toString() !== req.user.id.toString()) {
       return res
         .status(403)
-        .json({ success: false, message: "Not authorized to update the post" });
+        .json({ success: false, message: "Not authorized to edit the post" });
     }
 
     const updatedPost = await Post.findByIdAndUpdate(
@@ -127,12 +128,15 @@ export const deletePost = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Post not found" });
     }
-    if (post.author.toString() !== req.user.id && req.user.role !== "admin") {
+    if (
+      post.author.toString() !== req.user.id.toString() &&
+      req.user.role !== "admin"
+    ) {
       return res
         .status(403)
-        .json({ success: false, message: "Not authorized" });
+        .json({ success: false, message: "Not authorized to delete the post" });
     }
-    await post.findByIdAndDelete(postId);
+    await post.deleteOne();
 
     return res.status(201).json({
       success: true,

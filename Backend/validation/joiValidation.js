@@ -17,6 +17,7 @@ export const registerValidation = (req, res, next) => {
       "string.empty": "Password is required",
       "string.min": "Password must be at least 6 characters",
     }),
+    role: joi.string().optional(),
   });
 
   const { error } = schema.validate(req.body);
@@ -46,10 +47,18 @@ export const loginValidation = (req, res, next) => {
   next();
 };
 
-export const postSchema = joi.object({
-  title: joi.string().min(3).max(100).required(),
-  description: joi.string().min(10).required(),
-  author: joi.string().required(),
-  category: joi.array().items(joi.string()).min(1).required(),
-  coverImage: joi.string().uri().optional().allow(""),
-});
+export const postValidation = (req, res, next) => {
+  const schema = joi.object({
+    title: joi.string().min(3).max(100).required(),
+    description: joi.string().min(10).required(),
+    author: joi.string().required(),
+    category: joi.array().items(joi.string()).min(1).required(),
+    coverImage: joi.string().uri().optional().allow(""),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+  next();
+};
