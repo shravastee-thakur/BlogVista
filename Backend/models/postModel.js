@@ -17,17 +17,17 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: [String],
+      type: String,
       required: true,
     },
     coverImage: {
       type: String,
       default: "",
     },
-    comments: [
+    likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: "User",
       },
     ],
   },

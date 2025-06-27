@@ -5,9 +5,11 @@ import {
   verifyRefreshToken,
 } from "../utils/tokenUtils.js";
 
+import uploadToCloudinary from "../utils/cloudinaryUploader.js";
+
 export const register = async (req, res, next) => {
   try {
-    const { name, email, password, profileImage, role } = req.body;
+    const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -16,11 +18,20 @@ export const register = async (req, res, next) => {
         .json({ success: false, message: "User already exist" });
     }
 
+    let profileImageUrl = "";
+
+    if (req.file) {
+      profileImageUrl = await uploadToCloudinary(
+        req.file.path,
+        "BlogVista/profiles"
+      );
+    }
+
     const user = await User.create({
       name,
       email,
       password,
-      profileImage,
+      profileImage: profileImageUrl,
       role,
     });
 

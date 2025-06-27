@@ -11,9 +11,16 @@ import {
 } from "../validation/joiValidation.js";
 import { authenticate } from "../middlewares/authMiddleware.js";
 
+import upload from "../middlewares/multerMiddleware.js";
+
 const router = express.Router();
 
-router.post("/register", registerValidation, register);
+router.post(
+  "/register",
+  upload.single("profileImage"),
+  registerValidation,
+  register
+);
 router.post("/login", loginValidation, login);
 router.post("/refresh", refreshTokenHandler);
 router.post("/logout", authenticate, logout);
