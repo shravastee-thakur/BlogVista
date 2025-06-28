@@ -13,7 +13,7 @@ import cookieParser from "cookie-parser";
 //Middlewares
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
