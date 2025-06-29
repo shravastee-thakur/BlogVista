@@ -63,13 +63,16 @@ const CreateBlog = () => {
         <label className="block text-sm font-medium text-gray-700">
           Category
         </label>
-        <input
-          onChange={(e) => setCategory(e.target.value)}
-          type="text"
-          placeholder="Enter category"
-          className="w-full border outline-none px-4 py-2 rounded focus:ring-2 focus:ring-[#85A947] focus:border-transparent"
+        <select
+          className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-[#85A947] focus:border-transparent"
           value={category}
-        />
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        >
+          <option value="">Select Category</option>
+          <option value="tech">Tech</option>
+          <option value="travel">Travel</option>
+        </select>
       </div>
 
       <div className="space-y-2">

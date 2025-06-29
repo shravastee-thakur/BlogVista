@@ -6,8 +6,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { accessToken, logout } = useContext(AuthContext);
 
-  const handleLogout = () => {
-    const success = logout();
+  const handleLogout = async () => {
+    const success = await logout();
     if (success) {
       navigate("/login");
     }
@@ -27,7 +27,9 @@ const Navbar = () => {
               <NavLink to={"/aboutUs"}>About Us</NavLink>
             </li>
             <li>Membership</li>
-            <li>Write</li>
+            <li>
+              <NavLink to={"/createBlog"}>Write</NavLink>
+            </li>
           </ul>
           {accessToken ? (
             <button

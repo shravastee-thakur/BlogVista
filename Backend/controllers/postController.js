@@ -38,7 +38,9 @@ export const createPost = async (req, res, next) => {
 
 export const getAllPosts = async (req, res, next) => {
   try {
-    const allPosts = await Post.find().sort({ createdAt: -1 });
+    const allPosts = await Post.find()
+      .populate("author", "name profileImage")
+      .sort({ createdAt: -1 });
     if (!allPosts) {
       return res
         .status(404)

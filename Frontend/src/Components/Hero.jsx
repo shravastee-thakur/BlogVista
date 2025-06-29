@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -18,12 +19,14 @@ const Hero = () => {
         <p className="text-white text-lg md:text-xl font-semibold max-w-2xl md:mt-4">
           A space to write, discover, and connect through thoughtful content.
         </p>
-        <button
-          type="submit"
-          className="bg-amber-500 text-white font-bold px-5 py-1 md:px-8 md:py-2 rounded-full mt-10"
-        >
-          Start Reading
-        </button>
+        <NavLink to={"/allBlogs"}>
+          <button
+            type="submit"
+            className="bg-amber-500 text-white font-bold px-5 py-1 md:px-8 md:py-2 rounded-full mt-10"
+          >
+            Start Reading
+          </button>
+        </NavLink>
       </div>
     </section>
   );
