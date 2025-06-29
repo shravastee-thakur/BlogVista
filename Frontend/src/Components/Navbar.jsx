@@ -1,6 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { accessToken, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    const success = logout();
+    if (success) {
+      navigate("/login");
+    }
+  };
+
   return (
     <>
       <nav className="h-[50px] md:h-[70px] relative flex justify-between items-center text-sm font-semibold px-4 md:px-12 bg-[#85A947]">
@@ -17,14 +29,23 @@ const Navbar = () => {
             <li>Membership</li>
             <li>Write</li>
           </ul>
-          <NavLink to={"/login"}>
+          {accessToken ? (
             <button
-              type="submit"
-              className="bg-amber-500 text-white font-medium md:font-bold px-2 md:py-1 md:px-5 rounded-xl "
+              onClick={handleLogout}
+              className="bg-red-500 text-white font-medium md:font-bold px-2 md:py-1 md:px-5 rounded-xl"
             >
-              Login
+              Logout
             </button>
-          </NavLink>
+          ) : (
+            <NavLink to={"/login"}>
+              <button
+                type="submit"
+                className="bg-amber-500 text-white font-medium md:font-bold px-2 md:py-1 md:px-5 rounded-xl "
+              >
+                Login
+              </button>
+            </NavLink>
+          )}
         </div>
       </nav>
     </>
