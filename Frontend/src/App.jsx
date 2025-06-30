@@ -6,6 +6,9 @@ import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import CreateBlog from "./Pages/CreateBlog";
 import AllBlogs from "./Pages/AllBlogs";
+import ViewBlog from "./Pages/ViewBlog";
+import MyBlogs from "./Pages/MyBlogs";
+import EditBlog from "./Pages/EditBlog";
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/createBlog" element={<CreateBlog />} />
           <Route path="/allBlogs" element={<AllBlogs />} />
+          <Route path="/myBlogs" element={<MyBlogs />} />
+          <Route path="/viewBlog/:blogId" element={<ViewBlog />} />
+          <Route path="/editBlog/:blogId" element={<EditBlog />} />
         </Routes>
       </BrowserRouter>
     </div>

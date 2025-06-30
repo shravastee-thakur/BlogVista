@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 
 const AllBlogs = () => {
+  const navigate = useNavigate();
   const [allBlogs, setAllBlogs] = useState([]);
 
   useEffect(() => {
@@ -11,7 +12,6 @@ const AllBlogs = () => {
       const res = await axios.get(
         "http://localhost:5000/api/v1/post/getAllPosts"
       );
-      console.log(res.data);
       if (res.data.success) {
         setAllBlogs(res.data.allPosts);
       }
@@ -24,7 +24,11 @@ const AllBlogs = () => {
       <div className="grid grid-cols-1 px-8 py-6 gap-8 md:grid-cols-2 lg:grid-cols-3 ">
         {allBlogs.map((blog) => {
           return (
-            <div key={blog._id} className="bg-yellow-100">
+            <div
+              onClick={() => navigate(`/viewBlog/${blog._id}`)}
+              key={blog._id}
+              className="bg-yellow-100 cursor-pointer"
+            >
               <img src={blog.coverImage} />
               <h1 className="text-center font-bold pt-3 line-clamp-1">
                 {blog.title}
@@ -39,7 +43,6 @@ const AllBlogs = () => {
                 <img
                   className="w-[40px] h-[40px]"
                   src={blog.author.profileImage || "/user.png"}
-                  alt=""
                 />
                 <div>
                   <h3 className="font-bold">{blog.author.name}</h3>
