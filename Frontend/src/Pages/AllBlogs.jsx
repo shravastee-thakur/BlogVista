@@ -27,7 +27,7 @@ const AllBlogs = () => {
             <div
               onClick={() => navigate(`/viewBlog/${blog._id}`)}
               key={blog._id}
-              className="bg-yellow-100 cursor-pointer"
+              className="bg-[#E7F0DC] cursor-pointer"
             >
               <img src={blog.coverImage} />
               <h1 className="text-center font-bold pt-3 line-clamp-1">

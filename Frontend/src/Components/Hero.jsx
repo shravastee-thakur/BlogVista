@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative  h-[calc(100vh-50px)] md:h-[calc(100vh-70px)] overflow-hidden bg-sky-900">
+    <section className="relative  h-[calc(100vh-50px)] md:h-[calc(100vh-70px)] overflow-hidden bg-gray-900">
       <img
         src="/Coverforblog.png"
         alt="Background"
-        className="absolute inset-0 w-full h-full object-cover opacity-65"
+        className="absolute inset-0 w-full h-full object-cover opacity-70"
       />
 
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
